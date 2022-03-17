@@ -19,27 +19,27 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create new thought
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
 
 });
 
 // Create new reaction to a thought by thought's ID
-router.post("/:id/reactions", (req, res) => {
+router.post("/:id/reactions", async (req, res) => {
 
 });
 
 // Update a thought by ID
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
 
 });
 
 // Delete a thought by ID
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
 
 });
 
 // Delete a reaction by the reaction's ID
-router.delete("/:id/reactions/:reactionId", (req, res) => {
+router.delete("/:id/reactions/:reactionId", async (req, res) => {
 
 });
 

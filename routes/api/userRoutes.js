@@ -19,27 +19,27 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create new user
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
 
 });
 
 // Create another friend in a users friends list
-router.post("/:id/friends/:_id", (req, res) => {
+router.post("/:id/friends/:_id", async (req, res) => {
 
 })
 
 // Update a user by ID
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
 
 });
 
 // Delete user by ID, (potentially their posts too)
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
 
 });
 
 // Delete a friend from a user's friends list
-router.delete("/:id/friends/:friendId", (req, res) => {
+router.delete("/:id/friends/:friendId", async (req, res) => {
 
 })
 
