@@ -10,7 +10,6 @@ The social network API is a back-end service that will allow users to add and re
 - [Usage](#usage)
 - [Questions](#questions)
 
-
 ## Installation
 
 To install, fork this repo and clone it to your machine. Run `npm i` in the repository's directory to intall dependencies. You should already have MongoDB installed.
@@ -23,5 +22,3 @@ Start the server with either `npm start` or `node index.js`, then use an applica
 
 I can be found on GitHub [here](https://github.com/CameronMSeibel).
 If you have any questions, I can be reached at cam.m.seib@gmail.com
-
-
