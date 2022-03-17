@@ -1,14 +1,21 @@
 const router = require("express").Router();
 const {Thought} = require("../../models");
+const{validID} = require("../../utils");
 
 // Read all thoughts
-router.get("/", (req, res) => {
-
+router.get("/", async (req, res) => {
+    const thoughts = await Thought.find().select("-__v");
+    res.json(thoughts);
 });
 
 // Read a single thought by ID
-router.get("/:id", (req, res) => {
-
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
+    const thought = await Thought.findById(id).select("-__v");
+    thought ? res.json(thought) : res.status(404).json({message: `No thought found with ID ${id}`});
 });
 
 // Create new thought

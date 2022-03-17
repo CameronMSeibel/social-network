@@ -1,14 +1,21 @@
 const router = require("express").Router();
 const {User} = require("../../models");
+const {validID} = require("../../utils");
 
 // Read all users
-router.get("/", (req, res) => {
-
+router.get("/", async (req, res) => {
+    const users = await User.find().select("-__v");
+    res.json(users);
 });
 
 // Read a single user by id with populated thought and friends lists
-router.get("/:id", (req, res) => {
-
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
+    const user = await User.findById(id).select("-__v");
+    user ? res.json(user) : res.status(404).json({message: `No user found with ID ${id}`});
 });
 
 // Create new user

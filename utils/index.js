@@ -38,5 +38,13 @@ module.exports = {
 
         };
         return `${months[date.getMonth()]} ${day(date.getDay)} ${date.getFullYear} at ${hours(date.getHours)}:${date.getMinutes} ${period(date.getHours)}`;
+    },
+    /**
+     * Validates an ID input
+     * @param {string} id hexcharacter string representing an object ID
+     * @returns {boolean} whether or not the id is an acceptable object ID
+     */
+    validID: (id) => {
+        return id.length == 24;
     }
 };
