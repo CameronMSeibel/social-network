@@ -2,7 +2,7 @@
 	
 ## Description
 
-The social network API is a back-end service that will allow users to add and remove friends, create and delete posts, read posts from friends, and update their own posts. Users can react to posts from their friends.
+The social network API is a back-end service that will allow users to add and remove friends, create and delete posts, read posts from friends, and update their own posts. Users can react to posts from their friends. It is built on node JS with express and MongoDB with mongoose.
 
 ## Table of Contents
 
@@ -13,11 +13,11 @@ The social network API is a back-end service that will allow users to add and re
 
 ## Installation
 
-To install, for this repo and clone it to your machine. Use `npm start` or `node server.js` to start the server. Use an application like Insomnia to test requests to the social media API.
+To install, fork this repo and clone it to your machine. Run `npm i` in the repository's directory to intall dependencies. You should already have MongoDB installed.
 
 ## Usage
 
-To use this application, use an application like Insomnia to form and send requests.
+Start the server with either `npm start` or `node index.js`, then use an application like Insomnia to form and send requests to your server.
 
 ## Questions
 
