@@ -35,9 +35,18 @@ module.exports = {
             return "a.m.";
         };
         day = (day) => {
-
+            switch(day){
+                case 1:
+                    return "1st";
+                case 2:
+                    return "2nd";
+                case 3:
+                    return "3rd";
+                default:
+                    return `${day}th`;
+            }
         };
-        return `${months[date.getMonth()]} ${day(date.getDay())} ${date.getFullYear()} at ${hours(date.getHours())}:${date.getMinutes()} ${period(date.getHours())}`;
+        return `${months[date.getMonth()]} ${day(date.getDate())}, ${date.getFullYear()} at ${hours(date.getHours())}:${date.getMinutes()} ${period(date.getHours())}`;
     },
     /**
      * Validates an ID input
