@@ -24,7 +24,7 @@ async function seed(){
         }
     ]);
 
-    await Thought.create([
+    const thought = await Thought.create(
         {
             thoughtText: "This is my own original thought.",
             username: "cmseibel",
@@ -35,7 +35,13 @@ async function seed(){
                 }
             ]
         }
-    ]);
+    );
+
+    const user = await User.findOne({username: "cmseibel"});
+    user.thoughts.push(thought._id);
+    await user.save();
+
+    process.exit(0);
 }
 
-seed().then(process.exit);
+seed()
