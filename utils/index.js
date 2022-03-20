@@ -45,6 +45,6 @@ module.exports = {
      * @returns {boolean} whether or not the id is an acceptable object ID
      */
     validID: (id) => {
-        return id.length == 24;
+        return id.match(/[a-f\d]{24}/);
     }
 };
