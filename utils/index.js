@@ -37,7 +37,7 @@ module.exports = {
         day = (day) => {
 
         };
-        return `${months[date.getMonth()]} ${day(date.getDay)} ${date.getFullYear} at ${hours(date.getHours)}:${date.getMinutes} ${period(date.getHours)}`;
+        return `${months[date.getMonth()]} ${day(date.getDay())} ${date.getFullYear()} at ${hours(date.getHours())}:${date.getMinutes()} ${period(date.getHours())}`;
     },
     /**
      * Validates an ID input

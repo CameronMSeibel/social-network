@@ -18,24 +18,28 @@ const reactionSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: formatDate
+        get: time => formatDate(time)
     }
 },
 {
     _id: false
 });
 
+reactionSchema.set("toJSON", {getters: true});
+reactionSchema.set("toObject", {getters: true});
+
 const thoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 280
+        maxlength: 280,
+        get: (text) => `${text} boop.`
     },
     createdAt: {
         type: Date,
         default: Date.now,
-        get: formatDate
+        get: time => formatDate(time)
     },
     username: {
         type: String,
@@ -43,6 +47,9 @@ const thoughtSchema = new Schema({
     },
     reactions: [reactionSchema]
 });
+
+thoughtSchema.set("toJSON", {getters: true});
+thoughtSchema.set("toObject", {getters: true});
 
 const Thought = model("thought", thoughtSchema);
 
