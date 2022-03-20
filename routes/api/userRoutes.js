@@ -53,17 +53,36 @@ router.post("/:id/friends/:friendId", async (req, res) => {
 
 // Update a user by ID
 router.put("/:id", async (req, res) => {
-
+    try{
+        const id = req.params.id;
+        if(!validID(id)){
+            return res.status(400).json({message: "Provided ID is invalid."});
+        }
+        const user = await User.findByIdAndUpdate(id, {$set: req.body}, {new: true});
+        user ? res.json(user) : res.status(404).json({message: `No user found with ID ${id}`});
+    }catch(error){
+        if(error.code === 11000){
+            return res.status(400).json({message: `Sorry, that ${Object.keys(error.keyValue)} is taken.`});
+        }
+        res.status(500).json(error)
+    }
 });
 
 // Delete user by ID, (potentially their posts too)
 router.delete("/:id", async (req, res) => {
-
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
 });
 
 // Delete a friend from a user's friends list
 router.delete("/:id/friends/:friendId", async (req, res) => {
-
+    const id = req.params.id;
+    const friendId = req.params.friendId
+    if(!validID(id) || !validID(friendId)){
+        return res.status(400).json({message: "Provided ID is invalid."});
+    }
 })
 
 module.exports = router;

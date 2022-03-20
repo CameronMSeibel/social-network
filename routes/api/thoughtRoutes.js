@@ -49,17 +49,28 @@ router.post("/:id/reactions", async (req, res) => {
 
 // Update a thought by ID
 router.put("/:id", async (req, res) => {
-
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
+    const thought = await Thought.findByIdAndUpdate(id, {$set: req.body}, {new: true});
+    thought ? res.json(thought) : res.status(404).json({message: `No thought found with ID ${id}`});
 });
 
 // Delete a thought by ID
 router.delete("/:id", async (req, res) => {
-
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
 });
 
 // Delete a reaction by the reaction's ID
 router.delete("/:id/reactions/:reactionId", async (req, res) => {
-
+    const id = req.params.id;
+    if(!validID(id)){
+        return res.status(400).json({message: "Provided ID is invalid."})
+    }
 });
 
 module.exports = router;
