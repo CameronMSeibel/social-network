@@ -23,7 +23,11 @@ const userSchema = new Schema({
     }]
 });
 
-userSchema.virtual("friendCount").get()
+userSchema.virtual("friendCount").get(function(){
+    return this.friends.length;
+});
+
+userSchema.set("toJSON", {virtuals: true});
 
 const User = model("user", userSchema);
 
