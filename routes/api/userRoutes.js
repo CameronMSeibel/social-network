@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {User} = require("../../models");
+const {Thought, User} = require("../../models");
 const {validID} = require("../../utils");
 
 // Read all users
@@ -45,7 +45,7 @@ router.post("/:id/friends/:friendId", async (req, res) => {
         secondUser.friends.push(id);
         firstUser.save();
         secondUser.save();
-        res.json({message: `User ${id} and ${friendId} are now friends.`});
+        res.json({message: `Users ${id} and ${friendId} are now friends.`});
     }else{
         res.status(400).json({message: "Provided users are already friends!"});
     }
@@ -74,6 +74,15 @@ router.delete("/:id", async (req, res) => {
     if(!validID(id)){
         return res.status(400).json({message: "Provided ID is invalid."})
     }
+    const user = await User.findByIdAndDelete(id);
+    if(user){
+        // Delete associated thoughts
+        const thoughts = await Thought.deleteMany({username: user.username});
+        // Remove from friend's friends lists
+        const friends = await User.updateMany({friends: id}, {$pull: {friends: id}}, {new: true});
+        return res.json({thoughts, friends});
+    }
+    res.status(404).json({message: `No user found with ID ${id}`});
 });
 
 // Delete a friend from a user's friends list
@@ -83,6 +92,12 @@ router.delete("/:id/friends/:friendId", async (req, res) => {
     if(!validID(id) || !validID(friendId)){
         return res.status(400).json({message: "Provided ID is invalid."});
     }
+    const user = await User.findByIdAndUpdate(id, {$pull: {friends: friendId}}, {new: true});
+    const friend = await User.findByIdAndUpdate(friendId, {$pull: {friends: id}}, {new: true});
+    if(user && friend){
+        return res.json({message: `Friendship ENDED between users ${id} and ${friendId}`});
+    }
+    res.status(404).json({message: "User(s) not found"});
 })
 
 module.exports = router;

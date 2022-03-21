@@ -1,5 +1,7 @@
 const router = require("express").Router();
+const {ObjectId} = require("mongoose").Types
 const {Thought, User} = require("../../models");
+const { findByIdAndDelete, findById, findOne } = require("../../models/Thought");
 const {validID} = require("../../utils");
 
 // Read all thoughts
@@ -20,10 +22,11 @@ router.get("/:id", async (req, res) => {
 
 // Create new thought
 router.post("/", async (req, res) => {
+    // Ensure new thought is associated with a user.
     const user = await User.findOne({username: req.body.username})
     if(user){
         const thought = await Thought.create(req.body);
-        console.log(user);
+        // Associate thought with user.
         user.thoughts.push(thought._id);
         user.save();
         res.json(thought);
@@ -63,14 +66,27 @@ router.delete("/:id", async (req, res) => {
     if(!validID(id)){
         return res.status(400).json({message: "Provided ID is invalid."})
     }
+    const thought = await Thought.findByIdAndDelete(id);
+    if(thought){
+        // Find user associated with thought and delete thought from thoughts list.
+        const user = await User.findOne({username: thought.username});
+        const i = user.thoughts.indexOf(ObjectId(thought._id));
+        user.thoughts.splice(i, 1);
+        await user.save();
+        return res.json(thought);
+    }
+    res.status(404).json({message: `No thought found with ID ${id}`});
 });
 
 // Delete a reaction by the reaction's ID
 router.delete("/:id/reactions/:reactionId", async (req, res) => {
     const id = req.params.id;
-    if(!validID(id)){
+    const reactionId = req.params.reactionId;
+    if(!validID(id) || !validID(reactionId)){
         return res.status(400).json({message: "Provided ID is invalid."})
     }
+    const thought = await Thought.findByIdAndUpdate(id, {$pull: {reactions: {reactionId}}}, {new: true});
+    thought ? res.json(thought) : res.status(404).json({message: `No thought found with ID ${id}`});
 });
 
 module.exports = router;
