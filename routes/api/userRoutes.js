@@ -14,7 +14,9 @@ router.get("/:id", async (req, res) => {
     if(!validID(id)){
         return res.status(400).json({message: "Provided ID is invalid."});
     }
-    const user = await User.findById(id).select("-__v");
+    const user = await User.findById(id)
+        .populate(["thoughts", "friends"])
+        .select("-__v");
     user ? res.json(user) : res.status(404).json({message: `No user found with ID ${id}`});
 });
 
@@ -45,7 +47,7 @@ router.post("/:id/friends/:friendId", async (req, res) => {
         secondUser.friends.push(id);
         firstUser.save();
         secondUser.save();
-        res.json({message: `Users ${id} and ${friendId} are now friends.`});
+        res.json({message: `Users ${firstUser.username} and ${secondUser.username} are now friends.`});
     }else{
         res.status(400).json({message: "Provided users are already friends!"});
     }
@@ -95,7 +97,7 @@ router.delete("/:id/friends/:friendId", async (req, res) => {
     const user = await User.findByIdAndUpdate(id, {$pull: {friends: friendId}}, {new: true});
     const friend = await User.findByIdAndUpdate(friendId, {$pull: {friends: id}}, {new: true});
     if(user && friend){
-        return res.json({message: `Friendship ENDED between users ${id} and ${friendId}`});
+        return res.json({message: `Friendship ENDED between users ${user.username} and ${friend.username}`});
     }
     res.status(404).json({message: "User(s) not found"});
 })

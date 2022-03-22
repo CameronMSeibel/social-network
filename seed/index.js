@@ -16,7 +16,7 @@ async function seed(){
         },
         {
             username: "newguy",
-            email: "new@guy.ru"
+            email: "new@guy.edu"
         },
         {
             username: "SmilingFriend",

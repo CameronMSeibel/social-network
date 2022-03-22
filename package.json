@@ -4,7 +4,7 @@
   "description": "The social network API is a back-end service that will allow users to add and remove friends, create and delete posts, read posts from friends, and update their own posts. Users can react to posts from their friends.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "seed": "node seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
